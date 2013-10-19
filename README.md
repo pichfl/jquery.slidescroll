@@ -1,4 +1,85 @@
 jQuery Slidescroll
 ==================
 
-A jQuery plugin inspired by Apple's product page for the iPhone 5s
+A [jQuery](http://jquery.com) plugin inspired by Apple's [product page](http://www.apple.com/iphone-5s/) for the iPhone 5s
+
+My version of this feature supports mousescroll, touch and keyboard navigation.
+
+It is highly recommend to use this plugin with care and remember to provide a proper fallback for scenarios without JavaScript.
+
+
+Requirements
+------------
+
+- jQuery
+- [jQuery-mousewheel](https://github.com/brandonaaron/jquery-mousewheel)
+
+If you install this plugin via [Bower](http://bower.io), all dependencies will be resolved automatically.
+
+
+Usage
+-----
+
+Add the plugin and it's dependencies to your page.
+
+```js
+// Init the plugin on your container element.
+
+$('.wrapper').slidescroll({
+	pagesSelector: '.page'
+});
+
+```
+
+
+Options
+-------
+
+This plugin somehow managed to get quite a few options which can be set when initializing.
+Some options can also be set by added data-*-attributes to the element the plugin is initialized on.
+
+<dl>
+	<dt>pagesSelector</dt>
+	<dd><em>Defaults to <code>> *</code>.</em> Should be set to something a little more specific if possible</dd>
+
+	<dt>css3</dt>
+	<dd>Enable the use of CSS3 transforms instead of relative positioning for smoother performance on most devices. Defaults to the result of the corresponding Modernizr-check. If you don't include Modernizr remember to set this directly or to your own detection method.</dd>
+
+	<dt>initialPage</dt>
+	<dd>Also available as data-attribute <code>slidescroll-initial-page</code>. Allows you to set the page loaded on startup. Please note that the location.hash will override this setting.</dd>
+
+	<dt>generateNavigation</dt>
+	<dd><em>Defaults to true.</em> Generates a simple navigation for the available pages.</dd>
+
+	<dt>activeClassName</dt>
+	<dd>Defines the className used for the active element in the generated navigation</dd>
+</dl>
+
+### Generated Navigation
+
+To enhance the generated navigation, you can add some data-attributes to the page elements.
+
+- `data-slidescroll-title` will set the title of the page
+- `data-slidescroll-title-selector` will read the title of the page from the given selector and overrides the above
+- `data-slidescroll-url` sets the string used for the url hash. If not defined, the plugin will try to generate a string either from the title (see above) or generate a generic one
+
+
+
+Credits
+-------
+
+- Apple: For the great design and inspiration
+- [Pete R. / peachananr](https://github.com/peachananr/onepage-scroll/) who wrote a similar plugin which didn't match my expectations and made me write this plugin
+
+
+License
+-------
+
+MIT, See LICENSE file.
+
+
+Contact
+-------
+
+- Twitter: [@pichfl](http://twitter.com/pichfl)
+- Web (you can find my email and other information there): [florianpichler.de](http://florianpichler.de)
