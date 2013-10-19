@@ -1,0 +1,72 @@
+.js, .js body {
+  height: 100%; }
+
+.js .slidescroll-wrap {
+  position: relative;
+  height: 100%;
+  overflow: hidden; }
+
+.main, .page {
+  position: relative;
+  height: 100%; }
+
+.main {
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -ie-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  -webkit-transition: -webkit-transform 1s ease;
+  -moz-transition: -moz-transform 1s ease;
+  -ie-transition: -ie-transform 1s ease;
+  transition: transform 1s ease;
+  top: 0; }
+
+.page {
+  position: absolute;
+  top: 0;
+  left: 0; }
+
+.slidescroll-nav {
+  position: absolute;
+  top: 50%;
+  right: 20px; }
+  .slidescroll-nav a {
+    text-decoration: none;
+    cursor: pointer;
+    overflow: hidden; }
+  .slidescroll-nav a, .slidescroll-nav span {
+    position: relative;
+    display: block; }
+  .slidescroll-nav span {
+    line-height: 20px; }
+  .slidescroll-nav .index {
+    position: absolute;
+    top: 8px;
+    right: 3px;
+    display: block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #777;
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden; }
+  .slidescroll-nav .active .index {
+    top: 5px;
+    right: 0;
+    width: 8px;
+    height: 8px;
+    background: transparent;
+    border: 1px solid #777; }
+  .slidescroll-nav .title {
+    text-align: right;
+    padding-right: 20px;
+    color: #777;
+    opacity: 0;
+    font-size: em(12);
+    -webkit-transition: opacity 0.3s;
+    -moz-transition: opacity 0.3s;
+    -ie-transition: opacity 0.3s;
+    transition: opacity 0.3s; }
+  .slidescroll-nav a:hover .title {
+    opacity: 1; }

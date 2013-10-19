@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+	<meta charset="UTF-8">
+	<title>Slidescroll Demo</title>
+	<link rel="stylesheet" href="../slidescroll.css">
+	<style>
+		html, body {
+			margin: 0;
+			padding: 0;
+			font-family: sans-serif;
+		}
+	</style>
+	<script src="modernizr.custom.92573.js"></script>
+</head>
+<body>
+	<div class="slidescroll-wrap"><!-- this element is required -->
+		<div class="main"><!-- this element will be animated -->
+			<div class="page" data-slidescroll-title-selector="h1" data-slidescroll-url="start">
+				<h1>First Page</h1>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam debitis eligendi obcaecati voluptates fugit culpa quod nemo aliquam a ullam. Quis, numquam sequi cupiditate est modi obcaecati atque ipsam explicabo.</p>
+			</div>
+			<div class="page"  data-slidescroll-title="Second"><!-- these elements hold each content page -->
+				<h2>Second Page</h2>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, rerum, enim, ratione dolore doloremque deserunt et tenetur sunt laborum officiis perspiciatis quaerat aliquam nesciunt iste laboriosam voluptatum beatae! Facilis, nisi.</p>
+			</div>
+			<div class="page"  data-slidescroll-title-selector="h2" data-slidescroll-url="end">
+				<h2>Third page</h2>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum, deserunt ad cum odit dignissimos eveniet tempore. Neque, fuga, beatae, nobis, possimus inventore libero cupiditate error magni sint ducimus at repudiandae!</p>
+			</div>
+		</div>
+	</div>
+
+	<script src="jquery-2.0.3.min.js"></script>
+	<script src="jquery.mousewheel.js"></script>
+	<script src="../jquery.slidescroll.js"></script>
+	<script>
+		!function($) {
+			$('.main').slidescroll({
+				'pagesSelector': '.page'
+			});
+		}(window.jQuery);
+	</script>
+</body>
+</html>
