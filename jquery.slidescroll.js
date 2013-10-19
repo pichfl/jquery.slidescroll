@@ -48,11 +48,12 @@
 		pagesSelector: '> *',
 		css3: window.Modernizr.csstransforms3d,
 		initialPage: 0,
+		generateNavigation: true,
 		activeClassName: 'active',
 		moved: null, // function called after each transition, bound to the current
-					// instance. The current index is passed as parameter
+		// instance. The current index is passed as parameter
 		beforemove: null // function called before a transition
-						// the current and next index are passed
+		// the current and next index are passed
 	};
 
 	/**
@@ -84,30 +85,34 @@
 			this.pageKeys[index] = key;
 
 			// Prepare Navigation
-			var el = $('<a />');
-			var title = ['<span class="index">', index + 1, '</span>'];
+			if (this.options.generateNavigation) {
+				var el = $('<a />');
+				var title = ['<span class="index">', index + 1, '</span>'];
 
-			if (titleData || titleSelector) {
-				$.merge(title, [
-					' <span class="title">',
-					titleData || $item.find(titleSelector).first().text(),
-					'</span>'
-				]);
+				if (titleData || titleSelector) {
+					$.merge(title, [
+						' <span class="title">',
+						titleData || $item.find(titleSelector).first().text(),
+						'</span>'
+					]);
+				}
+
+				el.html(title.join(''));
+				el.data('target-slide', index);
+				el.attr('href', '#' + key);
+
+				if (index === this.current) {
+					el.addClass(this.options.activeClassName);
+				}
+
+				this.$nav.append(el);
 			}
-
-			el.html(title.join(''));
-			el.data('target-slide', index);
-			el.attr('href', '#' + key);
-
-			if (index === this.current) {
-				el.addClass(this.options.activeClassName);
-			}
-
-			this.$nav.append(el);
 		}.bind(this));
 
-		this.$navItems = this.$nav.children();
-		this.$element.after(this.$nav);
+		if (this.options.generateNavigation) {
+			this.$navItems = this.$nav.children();
+			this.$element.after(this.$nav);
+		}
 
 		// Init hash
 		this.current = this.validIndex(this.hash());
@@ -250,14 +255,14 @@
 	 * Show page after current page, if it exists
 	 */
 	Slidescroll.prototype.showNext = function () {
-		this.show(this.current +1);
+		this.show(this.current + 1);
 	};
 
 	/**
 	 * Show page before current page, if it exists
 	 */
 	Slidescroll.prototype.showPrevious = function () {
-		this.show(this.current -1);
+		this.show(this.current - 1);
 	};
 
 	/**
@@ -268,7 +273,7 @@
 	 *
 	 * @param newHash string or integer
 	 */
-	Slidescroll.prototype.hash = function(newHash) {
+	Slidescroll.prototype.hash = function (newHash) {
 		if (newHash === undefined) {
 			return window.location.hash.substr(1);
 		} else {
