@@ -1,0 +1,28 @@
+{
+  "name": "jquery.slidescroll",
+  "version": "1.0.0",
+  "homepage": "https://github.com/pichfl/jquery.slidescroll",
+  "authors": [
+    "Florian Pichler <pichfl@einserver.de>"
+  ],
+  "description": "A jQuery plugin inspired by Apple's product page for the iPhone 5s",
+  "main": "jquery.slidescroll.js",
+  "keywords": [
+    "jquery",
+    "plugin",
+    "scrolling",
+    "apple"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.0.3",
+    "jquery-mousewheel": "~3.1.4"
+  }
+}
