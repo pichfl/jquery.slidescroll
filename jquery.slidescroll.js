@@ -158,21 +158,29 @@
 
 		// Enable scrolling, requires jquery.mousewheel
 		if ($.fn.mousewheel) {
-			this.scrollLock = 0;
+			var scrollLock;
+			var reset;
+			function resetScrollLock() {
+				scrollLock = false;
+				reset = null;
+			}
 
 			$(window).on({
 				'mousewheel.slidescroll': function (event, delta, deltaX, deltaY) {
 					event.preventDefault();
+					window.clearTimeout(reset);
 
 					var newLock = 'showNext'; // scroll down
 					if (delta > 0) { // scroll up
 						newLock = 'showPrevious';
 					}
 
-					if (newLock !== this.scrollLock) {
+					if (newLock !== scrollLock) {
 						this[newLock]();
-						this.scrollLock = newLock;
+						scrollLock = newLock;
 					}
+
+					reset = window.setTimeout(resetScrollLock, 1000);
 				}.bind(this)
 			});
 		}
@@ -182,6 +190,10 @@
 		// Enable callback after each transition
 		this.$element.on({
 			'webkitTransitionEnd.slidescroll otransitionend.slidescroll oTransitionEnd.slidescroll msTransitionEnd.slidescroll transitionend.slidescroll': function () {
+				// clean scroll timeout
+				resetScrollLock();
+
+				// fire callback
 				if ($.type(this.options.moved) === 'function') {
 					this.options.moved.apply(this, [
 						this.current,
@@ -255,7 +267,11 @@
 	 * Show page after current page, if it exists
 	 */
 	Slidescroll.prototype.showNext = function () {
-		this.show(this.current + 1);
+		var next = this.current + 1;
+		if (next >= this.$pages.length) {
+			next = this.$pages.length-1;
+		}
+		this.show(next);
 	};
 
 	/**
