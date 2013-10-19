@@ -53,6 +53,12 @@ Some options can also be set by added data-*-attributes to the element the plugi
 
 	<dt>activeClassName</dt>
 	<dd>Defines the className used for the active element in the generated navigation</dd>
+
+	<dt>beforemove</dt>
+	<dd>A callback executed before the transition to the next page is started. It's Bound to the current instance and the current and next page index are passed as parameters</dd>
+
+	<dt>moved</dt>
+	<dd>A callback executed after the transition is complete. It's Bound to the current instance and the resulting current page index is passed as parameter.</dd>
 </dl>
 
 ### Generated Navigation
