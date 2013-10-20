@@ -3,7 +3,7 @@ jQuery Slidescroll
 
 A [jQuery](http://jquery.com) plugin inspired by Apple's [product page](http://www.apple.com/iphone-5s/) for the iPhone 5s
 
-My version of this feature supports mousescroll, touch and keyboard navigation.
+My version of this feature supports scroll, touch and keyboard navigation. It also allows to specify callbacks which are executed before and after a page change. The current page is also stored into and read from window.location.hash.
 
 It is highly recommend to use this plugin with care and remember to provide a proper fallback for scenarios without JavaScript.
 
@@ -72,6 +72,11 @@ To enhance the generated navigation, you can add some data-attributes to the pag
 - `data-slidescroll-title-selector` will read the title of the page from the given selector and overrides the above
 - `data-slidescroll-url` sets the string used for the url hash. If not defined, the plugin will try to generate a string either from the title (see above) or generate a generic one
 
+
+Version History
+---------------
+
+- **1.0** Initial release
 
 
 Credits
