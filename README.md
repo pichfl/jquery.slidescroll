@@ -59,6 +59,9 @@ Some options can also be set by added data-*-attributes to the element the plugi
 
 	<dt>moved</dt>
 	<dd>A callback executed after the transition is complete. It's Bound to the current instance and the resulting current page index is passed as parameter.</dd>
+
+	<dt>animationDuration</dt>
+	<dd>The animation duration should be set to the same value used in the css file.</dd>
 </dl>
 
 ### Generated Navigation

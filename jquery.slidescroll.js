@@ -50,10 +50,9 @@
 		initialPage: 0,
 		generateNavigation: true,
 		activeClassName: 'active',
-		moved: null, // function called after each transition, bound to the current
-		// instance. The current index is passed as parameter
-		beforemove: null // function called before a transition
-		// the current and next index are passed
+		moved: null,
+		beforemove: null,
+		animationDuration: 1000
 	};
 
 	/**
@@ -156,44 +155,65 @@
 			}.bind(this)
 		});
 
+		var $win = $(window);
+
 		// Enable scrolling, requires jquery.mousewheel
 		if ($.fn.mousewheel) {
-			var scrollLock;
-			var reset;
-			function resetScrollLock() {
-				scrollLock = false;
-				reset = null;
-			}
+			var ago;
 
-			$(window).on({
+			$win.on({
 				'mousewheel.slidescroll': function (event, delta, deltaX, deltaY) {
-					event.preventDefault();
-					window.clearTimeout(reset);
-
-					var newLock = 'showNext'; // scroll down
-					if (delta > 0) { // scroll up
-						newLock = 'showPrevious';
+					var now = new Date().getTime();
+					if (now - ago < this.options.animationDuration + 10) {
+						event.preventDefault();
+						return;
 					}
 
-					if (newLock !== scrollLock) {
-						this[newLock]();
-						scrollLock = newLock;
-					}
+					var fn = 'show'+((delta > 0)?'Previous':'Next');
+					this[fn].apply(this);
 
-					reset = window.setTimeout(resetScrollLock, 1000);
+					ago = now;
 				}.bind(this)
 			});
 		}
 
 		// Enable Touch
+		var startY;
+
+		var touchmove = function (event) {
+			event.preventDefault();
+
+			var touches = event.originalEvent.touches;
+			if (touches && touches.length) {
+				var deltaY = startY - touches[0].pageY;
+
+				if (deltaY >= 50) {
+					this.showNext();
+				}
+				if (deltaY <= -50) {
+					this.showPrevious();
+				}
+				if (Math.abs(deltaY) >= 50) {
+					$win.off('touchmove.slidescroll',touchmove);
+				}
+			}
+		}.bind(this);
+
+		$win.on({
+			'touchstart.slidescroll': function(event) {
+				event.preventDefault();
+
+				var touches = event.originalEvent.touches;
+				if (touches && touches.length) {
+					startY = touches[0].pageY;
+					$win.on('touchmove.slidescroll', touchmove);
+				}
+			}.bind(this)
+		});
 
 		// Enable callback after each transition
 		this.$element.on({
 			'webkitTransitionEnd.slidescroll otransitionend.slidescroll oTransitionEnd.slidescroll msTransitionEnd.slidescroll transitionend.slidescroll': function () {
-				// clean scroll timeout
-				resetScrollLock();
-
-				// fire callback
 				if ($.type(this.options.moved) === 'function') {
 					this.options.moved.apply(this, [
 						this.current,
