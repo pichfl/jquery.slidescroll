@@ -18,6 +18,9 @@
 		factory(jQuery);
 	}
 }(function ($) {
+	var win = window,
+		$win = $(win),
+		$doc = $(document);
 
 	/**
 	 * Slidescroll class
@@ -46,7 +49,7 @@
 	// The default options
 	Slidescroll.DEFAULTS = {
 		pagesSelector: '> *',
-		css3: window.Modernizr.csstransforms3d,
+		css3: win.Modernizr.csstransforms3d,
 		initialPage: 0,
 		generateNavigation: true,
 		activeClassName: 'active',
@@ -126,11 +129,7 @@
 	 * @TODO: Create detach method to tear this down
 	 */
 	Slidescroll.prototype.attach = function () {
-		$(window).on({
-			'hashchange.slidescroll': this.changedHash.bind(this)
-		});
-
-		$(document).on({
+		$doc.on({
 			'keydown.slidescroll': function (event) {
 				var tag = event.target.tagName.toLowerCase();
 
@@ -155,8 +154,6 @@
 			}.bind(this)
 		});
 
-		var $win = $(window);
-
 		// Enable scrolling, requires jquery.mousewheel
 		if ($.fn.mousewheel) {
 			var ago;
@@ -169,7 +166,7 @@
 						return;
 					}
 
-					var fn = 'show'+((delta > 0)?'Previous':'Next');
+					var fn = 'show' + ((delta > 0) ? 'Previous' : 'Next');
 					this[fn].apply(this);
 
 					ago = now;
@@ -194,13 +191,13 @@
 					this.showPrevious();
 				}
 				if (Math.abs(deltaY) >= 50) {
-					$win.off('touchmove.slidescroll',touchmove);
+					$win.off('touchmove.slidescroll', touchmove);
 				}
 			}
 		}.bind(this);
 
 		$win.on({
-			'touchstart.slidescroll': function(event) {
+			'touchstart.slidescroll': function (event) {
 				event.preventDefault();
 
 				var touches = event.originalEvent.touches;
@@ -221,6 +218,10 @@
 					]);
 				}
 			}.bind(this)
+		});
+
+		$win.on({
+			'hashchange.slidescroll': this.changedHash.bind(this)
 		});
 	};
 
@@ -289,7 +290,7 @@
 	Slidescroll.prototype.showNext = function () {
 		var next = this.current + 1;
 		if (next >= this.$pages.length) {
-			next = this.$pages.length-1;
+			next = this.$pages.length - 1;
 		}
 		this.show(next);
 	};
@@ -311,12 +312,12 @@
 	 */
 	Slidescroll.prototype.hash = function (newHash) {
 		if (newHash === undefined) {
-			return window.location.hash.substr(1);
+			return win.location.hash.substr(1);
 		} else {
 			if ($.type(newHash) === 'number') {
 				newHash = this.pageKeys[newHash];
 			}
-			window.location.hash = newHash;
+			win.location.hash = newHash;
 			return this;
 		}
 	};
