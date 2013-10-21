@@ -62,6 +62,9 @@ Some options can also be set by added data-*-attributes to the element the plugi
 
 	<dt>animationDuration</dt>
 	<dd>The animation duration should be set to the same value used in the css file.</dd>
+
+	<dt>namespace</dt>
+	<dd><em>Defaults to <code> slidescroll</code>.</em> Adjust the prefix used for CSS classNames and data-attribute prefixes</dd>
 </dl>
 
 ### Generated Navigation

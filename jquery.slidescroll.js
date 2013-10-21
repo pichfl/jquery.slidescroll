@@ -20,7 +20,9 @@
 }(function ($) {
 	var win = window,
 		$win = $(win),
-		$doc = $(document);
+		doc = document,
+		$doc = $(doc),
+		$html = $(doc.documentElement);
 
 	/**
 	 * Slidescroll class
@@ -33,11 +35,11 @@
 		this.$element = $(element);
 		this.options = $.extend({}, Slidescroll.DEFAULTS, options);
 		this.$pages = this.$element.find(this.options.pagesSelector);
-		this.$nav = $('<nav role="navigation" class="slidescroll-nav" />');
+		this.$nav = $('<nav role="navigation" class="'+this.options.namespace+'-nav" />');
 		this.$navItems = $();
 		this.pageKeys = [];
 
-		var initialPageData = this.$element.data('slidescroll-initial-page');
+		var initialPageData = this.$element.data(this.options.namespace+'-initial-page');
 		if ($.type(initialPageData) === 'number') {
 			this.options.initialPage = initialPageData;
 		}
@@ -55,7 +57,8 @@
 		activeClassName: 'active',
 		moved: null,
 		beforemove: null,
-		animationDuration: 1000
+		animationDuration: 1000,
+		namespace: 'slidescroll'
 	};
 
 	/**
@@ -65,9 +68,9 @@
 	Slidescroll.prototype.build = function () {
 		this.$pages.each(function (index, item) {
 			var $item = $(item);
-			var titleSelector = $item.data('slidescroll-title-selector');
-			var titleData = $item.data('slidescroll-title');
-			var pageUrl = $item.data('slidescroll-url');
+			var titleSelector = $item.data(this.options.namespace+'-title-selector');
+			var titleData = $item.data(this.options.namespace+'-title');
+			var pageUrl = $item.data(this.options.namespace+'-url');
 
 			// Position item for slide effect
 			$item.css({
@@ -211,6 +214,8 @@
 		// Enable callback after each transition
 		this.$element.on({
 			'webkitTransitionEnd.slidescroll otransitionend.slidescroll oTransitionEnd.slidescroll msTransitionEnd.slidescroll transitionend.slidescroll': function () {
+				this.removeClass($html, 'transitioning');
+
 				if ($.type(this.options.moved) === 'function') {
 					this.options.moved.apply(this, [
 						this.current,
@@ -249,6 +254,11 @@
 	 */
 	Slidescroll.prototype.show = function (indexOrKey) {
 		var index = this.validIndex(indexOrKey);
+
+		// Remove current class
+		this.removeClass($html, this.pageKeys[this.current]);
+		this.addClass($html, this.pageKeys[index]);
+		this.addClass($html, 'transitioning');
 
 		if ($.type(this.options.beforemove) === 'function') {
 			this.options.beforemove.apply(this, [
@@ -331,9 +341,27 @@
 	Slidescroll.prototype.changedHash = function (event) {
 		var newIndex = $.inArray(this.hash(), this.pageKeys);
 		if (newIndex !== -1 && this.pageKeys[newIndex] !== this.pageKeys[this.current]) {
-			this.current = newIndex;
 			this.show(newIndex);
 		}
+	};
+
+	/**
+	 * Namespaced variant of $.addClass
+	 *
+	 * @param className
+	 */
+	Slidescroll.prototype.addClass = function (el, className) {
+		$(el).addClass(this.options.namespace + '-' + className);
+	};
+
+	/**
+	 * Namespaced variant of $.removeClass
+	 *
+	 * @param el
+	 * @param className
+	 */
+	Slidescroll.prototype.removeClass = function (el, className) {
+		$(el).removeClass(this.options.namespace + '-' + className);
 	};
 
 	// Store previous for no conflict handling
@@ -343,11 +371,11 @@
 	$.fn.slidescroll = function (option) {
 		return this.each(function () {
 			var $this = $(this);
-			var data = $this.data('pagescroll');
+			var data = $this.data('slidescroll');
 			var options = $.extend({}, Slidescroll.DEFAULTS, $this.data(), typeof option === 'object' && option);
 
 			if (!data) {
-				$this.data('pagescroll', (data = new Slidescroll(this, options)));
+				$this.data('slidescroll', (data = new Slidescroll(this, options)));
 			}
 		});
 	};
