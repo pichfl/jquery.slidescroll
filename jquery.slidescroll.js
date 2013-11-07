@@ -164,7 +164,8 @@
 			$win.on({
 				'mousewheel.slidescroll': function (event, delta, deltaX, deltaY) {
 					var now = new Date().getTime();
-					if (now - ago < this.options.animationDuration + 10) {
+					// adding 500 to prevent the MacBook momentum from scrolling twice
+					if (now - ago < this.options.animationDuration + 500) {
 						event.preventDefault();
 						return;
 					}
