@@ -1,7 +1,7 @@
 /*! Copyright (c) 2013 Florian Pichler <pichfl@einserver.de>
  * Licensed under the MIT License
  *
- * Version: 1.0.0
+ * Version: 1.0.1
  *
  * Slidescroll is a jQuery plugin inspired by Apple's product page for the iPhone 5s
  */
