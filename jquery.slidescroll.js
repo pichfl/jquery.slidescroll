@@ -1,7 +1,7 @@
 /*! Copyright (c) 2013 Florian Pichler <pichfl@einserver.de>
  * Licensed under the MIT License
  *
- * Version: 1.0.1
+ * Version: 1.1.0
  *
  * Slidescroll is a jQuery plugin inspired by Apple's product page for the iPhone 5s
  */
@@ -34,18 +34,8 @@
 	var Slidescroll = function (element, options) {
 		this.$element = $(element);
 		this.options = $.extend({}, Slidescroll.DEFAULTS, options);
-		this.$pages = this.$element.find(this.options.pagesSelector);
-		this.$nav = $('<nav role="navigation" class="'+this.options.namespace+'-nav" />');
-		this.$navItems = $();
-		this.pageKeys = [];
 
-		var initialPageData = this.$element.data(this.options.namespace+'-initial-page');
-		if ($.type(initialPageData) === 'number') {
-			this.options.initialPage = initialPageData;
-		}
-		this.current = this.options.initialPage;
-
-		this.build();
+		this.enable();
 	};
 
 	// The default options
@@ -63,7 +53,6 @@
 
 	/**
 	 * Builds and adjusts the dom
-	 * @TODO: Create unbuild method to reverse all changes
 	 */
 	Slidescroll.prototype.build = function () {
 		this.$pages.each(function (index, item) {
@@ -122,14 +111,28 @@
 		// Init hash
 		this.current = this.validIndex(this.hash());
 		this.show(this.current);
-
-		// Attach Events
-		this.attach();
 	};
 
 	/**
-	 * Attach various events
-	 * @TODO: Create detach method to tear this down
+	 * Undo's the build() function, effectively disabling the plugin.
+	 */
+	Slidescroll.prototype.teardown = function () {
+		this.$pages.each(function (index, item) {
+			$(item).css({
+				'top': 'auto'
+			});
+		});
+
+		if (this.options.generateNavigation) {
+			this.$nav.remove();
+		}
+
+		// Init hash
+		this.current = this.validIndex(this.hash());
+	};
+
+	/**
+	 * Attach all event handlers
 	 */
 	Slidescroll.prototype.attach = function () {
 		$doc.on({
@@ -229,6 +232,49 @@
 		$win.on({
 			'hashchange.slidescroll': this.changedHash.bind(this)
 		});
+	};
+
+	/**
+	 * Disables all callbacks create for this plugin
+	 */
+	Slidescroll.prototype.detach = function () {
+		$doc.off('.slidescroll');
+		$win.off('.slidescroll');
+		this.$element.off('.slidescroll');
+	};
+
+	/**
+	 * Enable the plugin
+	 * @returns {Slidescroll}
+	 */
+	Slidescroll.prototype.enable = function () {
+		this.$pages = this.$element.find(this.options.pagesSelector);
+		this.$nav = $('<nav role="navigation" class="'+this.options.namespace+'-nav" />');
+		this.$navItems = $();
+		this.pageKeys = [];
+
+		var initialPageData = this.$element.data(this.options.namespace+'-initial-page');
+		if ($.type(initialPageData) === 'number') {
+			this.options.initialPage = initialPageData;
+		}
+
+		this.current = this.options.initialPage;
+
+		this.build();
+		this.attach();
+
+		return this;
+	};
+
+	/**
+	 * Disable the plugin, removing all of it's effects
+	 * @returns {Slidescroll} the disabled instance
+	 */
+	Slidescroll.prototype.disable = function () {
+		this.teardown();
+		this.detach();
+
+		return this;
 	};
 
 	/**
