@@ -1,7 +1,7 @@
 /*! Copyright (c) 2013 Florian Pichler <pichfl@einserver.de>
  * Licensed under the MIT License
  *
- * Version: 1.1.1-1
+ * Version: 1.1.1-2
  *
  * Slidescroll is a jQuery plugin inspired by Apple's product page for the iPhone 5s
  */
@@ -36,6 +36,8 @@
 		this.options = $.extend({}, Slidescroll.DEFAULTS, options);
 
 		this.enable();
+
+		this.navigationEnabled = false;
 	};
 
 	// The default options
@@ -105,9 +107,11 @@
 			}
 		}.bind(this));
 
-		if (this.options.generateNavigation) {
+		if (this.options.generateNavigation && !this.navigationEnabled) {
 			this.$navItems = this.$nav.children();
 			this.$element.after(this.$nav);
+
+			this.navigationEnabled = true;
 		}
 
 		// Init hash
@@ -128,6 +132,7 @@
 
 		if (this.options.generateNavigation) {
 			this.$nav.remove();
+			this.navigationEnabled = false;
 		}
 
 		this.$element.removeAttr('style');
@@ -255,8 +260,13 @@
 	 * @returns {Slidescroll}
 	 */
 	Slidescroll.prototype.enable = function () {
+		if (this.$nav) {
+			this.$nav.empty();
+		} else {
+			this.$nav = $('<nav role="navigation" class="'+this.options.namespace+'-nav" />');
+		}
+
 		this.$pages = this.$element.find(this.options.pagesSelector);
-		this.$nav = $('<nav role="navigation" class="'+this.options.namespace+'-nav" />');
 		this.$navItems = $();
 		this.pageKeys = [];
 
