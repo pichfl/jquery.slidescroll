@@ -1,7 +1,7 @@
 /*! Copyright (c) 2013 Florian Pichler <pichfl@einserver.de>
  * Licensed under the MIT License
  *
- * Version: 1.1.0
+ * Version: 1.1.1-1
  *
  * Slidescroll is a jQuery plugin inspired by Apple's product page for the iPhone 5s
  */
@@ -55,7 +55,7 @@
 	 * Builds and adjusts the dom
 	 */
 	Slidescroll.prototype.build = function () {
-		this.addClass($win, 'enabled');
+		this.addClass($html, 'enabled');
 
 		this.$pages.each(function (index, item) {
 			var $item = $(item);
@@ -119,19 +119,18 @@
 	 * Undo's the build() function, effectively disabling the plugin.
 	 */
 	Slidescroll.prototype.teardown = function () {
-		this.removeClass($win, 'enabled');
+		this.removeClass($html, 'enabled');
 
 		this.$pages.each(function (index, item) {
-			$(item).css({
-				'top': 'auto'
-			});
-
+			$(item).removeAttr('style');
 			this.removeClass($html, this.pageKeys[index]);
 		}.bind(this));
 
 		if (this.options.generateNavigation) {
 			this.$nav.remove();
 		}
+
+		this.$element.removeAttr('style');
 
 		this.removeClass($html, 'transitioning');
 
