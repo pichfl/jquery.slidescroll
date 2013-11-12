@@ -1,37 +1,40 @@
-.js, .js body {
-	height: 100%;
+.slidescroll-enabled {
+	&,  body {
+		height: 100%;
+	}
+
+	.slidescroll-wrap {
+		position: relative;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	.main, .page {
+		position: relative;
+		height: 100%;
+	}
+
+	.main {
+		-webkit-transform: translate3d(0,0,0);
+		-moz-transform: translate3d(0,0,0);
+		-ie-transform: translate3d(0,0,0);
+		transform: translate3d(0,0,0);
+
+		-webkit-transition: -webkit-transform 1s ease;
+		-moz-transition: -moz-transform 1s ease;
+		-ie-transition: -ie-transform 1s ease;
+		transition: transform 1s ease;
+
+		top: 0;
+	}
+
+	.page {
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
 }
 
-.js .slidescroll-wrap {
-	position: relative;
-	height: 100%;
-	overflow: hidden;
-}
-
-.main, .page {
-	position: relative;
-	height: 100%;
-}
-
-.main {
-	-webkit-transform: translate3d(0,0,0);
-	-moz-transform: translate3d(0,0,0);
-	-ie-transform: translate3d(0,0,0);
-	transform: translate3d(0,0,0);
-
-	-webkit-transition: -webkit-transform 1s ease;
-	-moz-transition: -moz-transform 1s ease;
-	-ie-transition: -ie-transform 1s ease;
-	transition: transform 1s ease;
-
-	top: 0;
-}
-
-.page {
-	position: absolute;
-	top: 0;
-	left: 0;
-}
 
 // Navigation
 

@@ -55,6 +55,8 @@
 	 * Builds and adjusts the dom
 	 */
 	Slidescroll.prototype.build = function () {
+		this.addClass($win, 'enabled');
+
 		this.$pages.each(function (index, item) {
 			var $item = $(item);
 			var titleSelector = $item.data(this.options.namespace+'-title-selector');
@@ -117,15 +119,21 @@
 	 * Undo's the build() function, effectively disabling the plugin.
 	 */
 	Slidescroll.prototype.teardown = function () {
+		this.removeClass($win, 'enabled');
+
 		this.$pages.each(function (index, item) {
 			$(item).css({
 				'top': 'auto'
 			});
-		});
+
+			this.removeClass($html, this.pageKeys[index]);
+		}.bind(this));
 
 		if (this.options.generateNavigation) {
 			this.$nav.remove();
 		}
+
+		this.removeClass($html, 'transitioning');
 
 		// Init hash
 		this.current = this.validIndex(this.hash());

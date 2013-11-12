@@ -1,16 +1,13 @@
-.js, .js body {
+.slidescroll-enabled, .slidescroll-enabled body {
   height: 100%; }
-
-.js .slidescroll-wrap {
+.slidescroll-enabled .slidescroll-wrap {
   position: relative;
   height: 100%;
   overflow: hidden; }
-
-.main, .page {
+.slidescroll-enabled .main, .slidescroll-enabled .page {
   position: relative;
   height: 100%; }
-
-.main {
+.slidescroll-enabled .main {
   -webkit-transform: translate3d(0, 0, 0);
   -moz-transform: translate3d(0, 0, 0);
   -ie-transform: translate3d(0, 0, 0);
@@ -20,8 +17,7 @@
   -ie-transition: -ie-transform 1s ease;
   transition: transform 1s ease;
   top: 0; }
-
-.page {
+.slidescroll-enabled .page {
   position: absolute;
   top: 0;
   left: 0; }

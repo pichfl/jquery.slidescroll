@@ -79,6 +79,7 @@ To enhance the generated navigation, you can add some data-attributes to the pag
 Version History
 ---------------
 
+- **1.1.1** Made the styling depend on a class of the HTML element for easier styling when disabled
 - **1.1.0** Added disable() function to disable the plugin. re-enable with with enable();
 - **1.0.1** Added fix for scroll momentum
 - **1.0.0** Initial release
