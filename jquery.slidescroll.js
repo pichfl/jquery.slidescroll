@@ -1,7 +1,7 @@
 /*! Copyright (c) 2013 Florian Pichler <pichfl@einserver.de>
  * Licensed under the MIT License
  *
- * Version: 1.1.1-2
+ * Version: 1.1.2
  *
  * Slidescroll is a jQuery plugin inspired by Apple's product page for the iPhone 5s
  */
@@ -34,10 +34,10 @@
 	var Slidescroll = function (element, options) {
 		this.$element = $(element);
 		this.options = $.extend({}, Slidescroll.DEFAULTS, options);
+		this.navigationEnabled = false;
+		this.enabled = false;
 
 		this.enable();
-
-		this.navigationEnabled = false;
 	};
 
 	// The default options
@@ -260,25 +260,30 @@
 	 * @returns {Slidescroll}
 	 */
 	Slidescroll.prototype.enable = function () {
-		if (this.$nav) {
-			this.$nav.empty();
-		} else {
-			this.$nav = $('<nav role="navigation" class="'+this.options.namespace+'-nav" />');
+		if (!this.enabled) {
+
+			if (this.$nav) {
+				this.$nav.empty();
+			} else {
+				this.$nav = $('<nav role="navigation" class="'+this.options.namespace+'-nav" />');
+			}
+
+			this.$pages = this.$element.find(this.options.pagesSelector);
+			this.$navItems = $();
+			this.pageKeys = [];
+
+			var initialPageData = this.$element.data(this.options.namespace+'-initial-page');
+			if ($.type(initialPageData) === 'number') {
+				this.options.initialPage = initialPageData;
+			}
+
+			this.current = this.options.initialPage;
+
+			this.build();
+			this.attach();
+
+			this.enabled = true;
 		}
-
-		this.$pages = this.$element.find(this.options.pagesSelector);
-		this.$navItems = $();
-		this.pageKeys = [];
-
-		var initialPageData = this.$element.data(this.options.namespace+'-initial-page');
-		if ($.type(initialPageData) === 'number') {
-			this.options.initialPage = initialPageData;
-		}
-
-		this.current = this.options.initialPage;
-
-		this.build();
-		this.attach();
 
 		return this;
 	};
@@ -288,8 +293,12 @@
 	 * @returns {Slidescroll} the disabled instance
 	 */
 	Slidescroll.prototype.disable = function () {
-		this.teardown();
-		this.detach();
+		if (this.enabled) {
+			this.teardown();
+			this.detach();
+
+			this.enabled = false;
+		}
 
 		return this;
 	};
