@@ -79,6 +79,7 @@ To enhance the generated navigation, you can add some data-attributes to the pag
 Version History
 ---------------
 
+- **1.2.0** Replaced `data-slidescroll-url` with `id` attribute for a lazier fallback when disabling the plugin. The previous behaviour is still available.
 - **1.1.2** Added lock for enable/disable functions
 - **1.1.1-2** Fixed problems with root element class and duplicated navigation
 - **1.1.1** Made the styling depend on a class of the HTML element for easier styling when disabled
