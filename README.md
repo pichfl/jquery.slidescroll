@@ -74,6 +74,35 @@ To enhance the generated navigation, you can add some data-attributes to the pag
 - `data-slidescroll-title` will set the title of the page
 - `data-slidescroll-title-selector` will read the title of the page from the given selector and overrides the above
 - `data-slidescroll-url` sets the string used for the url hash. If not defined, the plugin will try to generate a string either from the title (see above) or generate a generic one
+- 
+
+### Enabling / Disabling
+
+Since many many people seems to use this plugin without checking the source code on how it works: To disable and enable the plugin ou have to grab the plugin instance and call the appropriate method on it.
+
+```
+var wrapper = $('.wrapper');
+
+// Init the plugin
+wrapper.slidescroll({
+	pagesSelector: '.page'
+});
+
+// ...
+
+var slidescrollInstance = wrapper.data('slidescroll');
+
+// ...
+
+// To disable the plugin
+slidescrollInstance.disable();
+
+// To enable it again
+slidescrollInstance.enable();
+
+```
+
+I stil provide this plugin as is, use at your own risk. Please submit patches/fixes as pull requests.
 
 
 Version History
