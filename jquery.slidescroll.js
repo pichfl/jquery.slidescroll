@@ -345,8 +345,8 @@
 		this.addClass($html, this.pageKeys[index]);
 		this.addClass($html, 'transitioning');
 
-		this.$pages.removeClass('active');
-		$(this.$pages[index]).addClass('active');
+		this.$pages.removeClass(this.options.activeClassName);
+		$(this.$pages[index]).addClass(this.options.activeClassName);
 
 		if ($.type(this.options.beforemove) === 'function') {
 			this.options.beforemove.apply(this, [
