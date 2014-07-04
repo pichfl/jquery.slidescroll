@@ -231,8 +231,6 @@
 
 		$win.on({
 			'touchstart.slidescroll': function (event) {
-				event.preventDefault();
-
 				var touches = event.originalEvent.touches;
 				if (touches && touches.length) {
 					startY = touches[0].pageY;
@@ -346,6 +344,9 @@
 		this.removeClass($html, this.pageKeys[this.current]);
 		this.addClass($html, this.pageKeys[index]);
 		this.addClass($html, 'transitioning');
+
+		this.$pages.removeClass(this.options.activeClassName);
+		$(this.$pages[index]).addClass(this.options.activeClassName);
 
 		if ($.type(this.options.beforemove) === 'function') {
 			this.options.beforemove.apply(this, [
